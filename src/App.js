@@ -51,6 +51,7 @@ function App() {
         Typing Speed: <span id="typing-speed">{typingSpeed || 0}</span> WPM
         (Words Per Minute)
       </div>
+      <footer>Created by Sorbopriyo Roy in 2023</footer>
     </main>
   );
 }
