@@ -3,7 +3,7 @@ import "./App.css";
 import TypingText from "./TypingText";
 
 function App() {
-  const [quote, setQuote] = useState(
+  const [quote] = useState(
     "Ion propulsion, also known as ion thrusters or ion drives, is a type of propulsion technology used in space exploration. Unlike traditional chemical rocket engines that rely on the combustion of propellants, ion propulsion systems use electric fields to accelerate and expel charged particles, called ions, to generate thrust."
   );
   const quoteWords = quote.split(" ");
