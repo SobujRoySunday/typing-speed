@@ -1,6 +1,6 @@
 {
   "name": "typing-speed",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,7 +15,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "nw build/",
+    "prod": "nwbuild --platform osx --outDir dist/osx --glob=false build"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +36,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nw": "^0.44.1-sdk",
+    "nw-builder": "^4.4.2-beta.3"
   }
 }
