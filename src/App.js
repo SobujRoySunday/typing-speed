@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import TypingText from "./TypingText";
+import TypingText from "./components/TypingText";
 import Label from "./components/Label";
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
   const [accuracy, setAccuracy] = useState(0);
 
   useEffect(() => {
+    console.log("invoked");
     if (typedText.length === 1) {
       setStartTime(new Date());
       setTypingSpeed(0);
@@ -45,9 +46,9 @@ function App() {
     <main>
       <h1>Typing Speed Test</h1>
 
-      <div className="typing-text" id="quote">
+      <section className="typing-text">
         <TypingText text={typedText} quote={quote} />
-      </div>
+      </section>
 
       <textarea
         className="typing-box"
@@ -57,12 +58,20 @@ function App() {
         onChange={(e) => setTypedText(e.target.value)}
       ></textarea>
 
-      <div className="results">
+      <section className="results">
         <Label text={`${typingSpeed} WPM`} />
         <Label text={`${accuracy}%`} />
-      </div>
+      </section>
 
-      <footer>Created by Sorbopriyo Roy in 2023</footer>
+      <footer>
+        <p>Created by Sorbopriyo Roy in 2023</p>
+        <p>
+          For any issues:{" "}
+          <a href="https://github.com/SobujRoySunday/typing-speed">
+            Github Repo.
+          </a>
+        </p>
+      </footer>
     </main>
   );
 }
