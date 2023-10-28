@@ -8,7 +8,7 @@ export default function TypingText({ text, quote }) {
     // We only modify the style if the user has typed anything and that is
     // checked through this conditional statement
     if (text.length > 0) {
-      let i;
+      let i = 0;
       const typedChars = text.split("");
       const quoteChars = quote.split("");
       let newTextJSX = [];
@@ -16,7 +16,7 @@ export default function TypingText({ text, quote }) {
       // Looping over the characters and checking which one is correct and
       // which one is incorrect, based upon that we are inserting a JSX
       // line with className green or blue respectively.
-      for (i = 0; i < typedChars.length; i++) {
+      for (; i < typedChars.length; i++) {
         if (typedChars[i] === quoteChars[i]) {
           newTextJSX.push(<span className="green">{quoteChars[i]}</span>);
         } else {
@@ -24,8 +24,10 @@ export default function TypingText({ text, quote }) {
         }
       }
 
+      newTextJSX.push(<span className="underline">{quoteChars[i]}</span>);
+
       // For the characters which has not beed typed yet.
-      for (; i < quoteChars.length; i++) {
+      for (i = i + 1; i < quoteChars.length; i++) {
         newTextJSX.push(<span className="">{quoteChars[i]}</span>);
       }
 
