@@ -35,6 +35,41 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.controls{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 2px solid var(--primary-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 5px var(--primary-color);
+  background-color: transparent;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.controls button {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 5px var(--primary-color);
+  background-color: transparent;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.controls .btn-active{
+  background-color: #1f4592;
+  color: var(--primary-text-color);
+  transition: all 0.2s ease-in-out;
+}
+
 .typing-text {
   border: 2px solid var(--primary-color);
   border-radius: 1rem;
@@ -95,4 +130,17 @@ footer {
   text-align: center;
   width: 100%;
   padding: 1rem;
+}
+
+.loader-background{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 100;
+  background-color: #050c1acc;
+  top: 0;
+  left: 0;
 }
