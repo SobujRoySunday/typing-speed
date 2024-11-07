@@ -1,53 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import TypingText from "./components/TypingText";
 import Label from "./components/Label";
 
 function App() {
-  const [quote] = useState(
-    "ion propulsion also known as ion thrusters or ion drives is a type of propulsion technology used in space exploration unlike traditional chemical rocket engines that rely on the combustion of propellants ion propulsion systems use electric fields to accelerate and expel charged particles called ions to generate thrust"
-  );
-  const quoteWords = quote.split(" ");
-  const quoteChar = quote.split("");
+  const [numberOfWords, setNumberOfWords] = useState(10);
+  const [sentence, setSentence] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const startTime = useRef(null);
   const [typedText, setTypedText] = useState("");
-  const [startTime, setStartTime] = useState(null);
   const [typingSpeed, setTypingSpeed] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
 
-  useEffect(() => {
-    console.log("invoked");
-    if (typedText.length === 1) {
-      setStartTime(new Date());
-      setTypingSpeed(0);
-      setAccuracy(0);
+  const fetchWords = async (numberOfWords) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`https://random-word-api.herokuapp.com/word?number=${numberOfWords}&lang=en`);
+      const data = await response.json();
+      setSentence(data.join(" "));
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  }
+  
+  useEffect(() => {
+    fetchWords(numberOfWords);
+  }, [numberOfWords]);
+  
+  useEffect(() => {
+    if(sentence.length > 0) {
+      if (typedText.length === 1) {
+        startTime.current = new Date();
+        setTypingSpeed(0);
+        setAccuracy(0);
+      }
+      
+      const characters = sentence.split("");
+      const typedChar = typedText.split("");
+      const typedWords = typedText.split(" ");
 
-    const typedChar = typedText.split("");
-    const typedWords = typedText.split(" ");
-    let correctChar = 0;
+      let correctChar = 0;
+      for (let i = 0; i < typedChar.length; i++) {
+        if (typedChar[i] === characters[i]) {
+          correctChar++;
+        }
+      }
+  
+      if (typedChar.length === characters.length) {
+        const elapsedTime = (new Date() - startTime.current) / 1000;
+        const wordsTyped = typedWords.length;
+        const speed = Math.floor((wordsTyped / elapsedTime) * 60);
+        const accuracyPercentage = Math.floor((correctChar / characters.length) * 100);
+        setTypingSpeed(speed);
+        setAccuracy(accuracyPercentage);
+      }
 
-    for (let i = 0; i < typedChar.length; i++) {
-      if (typedChar[i] === quoteChar[i]) {
-        correctChar++;
+      if(typedChar.length === 0) {
+        setAccuracy(0);
+        setTypingSpeed(0);
+        startTime.current = null;
       }
     }
-
-    if (typedChar.length === quoteChar.length) {
-      const elapsedTime = (new Date() - startTime) / 1000;
-      const wordsTyped = typedWords.length;
-      const speed = Math.floor((wordsTyped / elapsedTime) * 60);
-      const acc = Math.floor((correctChar / quoteChar.length) * 100);
-      setTypingSpeed(speed);
-      setAccuracy(acc);
-    }
-  }, [typedText, startTime, quoteWords, quoteChar]);
+  }, [typedText, sentence]);
 
   return (
     <main>
       <h1>Typing Speed Test</h1>
 
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
       <section className="typing-text">
-        <TypingText text={typedText} quote={quote} />
+        <TypingText text={typedText} quote={sentence} />
       </section>
 
       <textarea
@@ -65,12 +94,6 @@ function App() {
 
       <footer>
         <p>Created by Sorbopriyo Roy in 2023</p>
-        <p>
-          For any issues:{" "}
-          <a href="https://github.com/SobujRoySunday/typing-speed">
-            Github Repo.
-          </a>
-        </p>
       </footer>
     </main>
   );
